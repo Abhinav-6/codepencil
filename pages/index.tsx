@@ -1,10 +1,14 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import { Inter } from '@next/font/google'
-
-const inter = Inter({ subsets: ['latin'] })
-
+import Head from "next/head";
+import { useTheme } from "next-themes";
+import { useState, useEffect } from "react";
+import Navbar from "@/components/Navbar";
+import Page from "@/components/Page";
 export default function Home() {
+  const [rendered, setRendered] = useState(false);
+  useEffect(() => {
+    setRendered(true);
+  }, []);
+  const { theme, setTheme } = useTheme();
   return (
     <>
       <Head>
@@ -13,9 +17,18 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className='text-purple-500'>
-        Namaste World
-      </main>
+      <Navbar rendered={rendered} />
+      <Page>
+        {rendered && (
+          <button
+            onClick={() => {
+              setTheme(theme === "light" ? "dark" : "light");
+            }}
+          >
+            {theme}
+          </button>
+        )}
+      </Page>
     </>
-  )
+  );
 }
